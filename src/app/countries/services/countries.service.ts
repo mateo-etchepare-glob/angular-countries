@@ -23,13 +23,13 @@ export class CountriesService {
   }
 
   private saveToLocalStorage() {
-    localStorage.setItem( 'cacheStore', JSON.stringify( this.cacheStore ));
+    this._localStorageService.setItem( 'cacheStore', this.cacheStore);
   }
 
   private loadFromLocalStorage() {
-    if ( !localStorage.getItem('cacheStore') ) return;
+    if ( !this._localStorageService.getItem('cacheStore') ) return;
 
-    this.cacheStore = JSON.parse( localStorage.getItem('cacheStore')! );
+    this.cacheStore = this._localStorageService.getItem('cacheStore') as CacheStore;
   }
 
   private getCountriesRequest( url: string ): Observable<Country[]> {
@@ -40,9 +40,7 @@ export class CountriesService {
   }
 
   searchCountryByAlphaCode( code: string ): Observable<Country | null> {
-
     const url = `${ this.apiUrl }/alpha/${ code }`;
-
     return this.http.get<Country[]>( url )
       .pipe(
         map( countries => countries.length > 0 ? countries[0]: null ),
