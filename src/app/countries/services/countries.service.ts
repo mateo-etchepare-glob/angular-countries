@@ -16,7 +16,6 @@ export class CountriesService {
     byCapital:   { term: '', countries: [] },
     byCountries: { term: '', countries: [] },
     byRegion:    { region: '', countries: [] },
-    byAll: { countries: [] }
   }
 
   constructor(private http: HttpClient, private _localStorageService: LocalStorageService ) {

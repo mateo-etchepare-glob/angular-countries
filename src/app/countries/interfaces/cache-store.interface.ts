@@ -6,7 +6,6 @@ export interface CacheStore {
   byCapital:   TermCountries;
   byCountries: TermCountries;
   byRegion:    RegionCountries;
-  byAll:       AllCountries;
 }
 
 export interface TermCountries {
@@ -17,11 +16,6 @@ export interface TermCountries {
 
 export interface RegionCountries {
   region:    Region;
-  countries: Country[];
-  starred?: boolean;
-}
-
-export interface AllCountries {
   countries: Country[];
   starred?: boolean;
 }

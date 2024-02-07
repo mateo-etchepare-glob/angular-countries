@@ -46,4 +46,8 @@ export class ByFavoritesPageComponent {
         this.showAllFavorites();
       });
   }
+
+  favoriteClicked() {
+    this.searchAll(); // Realiza la búsqueda de todos los favoritos nuevamente
+  }
 }
