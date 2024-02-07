@@ -23,6 +23,9 @@ export class ByRegionPageComponent implements OnInit {
   ngOnInit(): void {
     this.countries = this.countriesService.cacheStore.byRegion.countries;
     this.selectedRegion = this.countriesService.cacheStore.byRegion.region;
+    if (this.selectedRegion !== null) {
+        this.countries = this.countriesService.didFavoritesChanged(this.countries);
+    }
   }
 
   searchByRegion( region: Region ):void  {
@@ -33,11 +36,6 @@ export class ByRegionPageComponent implements OnInit {
       .subscribe( countries => {
         this.countries = countries;
       });
-  }
-
-  favoriteClicked() {
-    this.searchByRegion(this.selectedRegion!); // Realiza la búsqueda de todos los favoritos nuevamente
-    console.log('Se ejecuta favorite clicked en region')
   }
 
 }

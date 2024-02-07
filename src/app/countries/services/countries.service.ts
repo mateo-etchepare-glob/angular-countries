@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, Observable, of, map, tap } from 'rxjs';
+import { catchError, Observable, of, map, tap, count } from 'rxjs';
 
 import { Country } from '../interfaces/country';
 import { CacheStore } from '../interfaces/cache-store.interface';
@@ -59,7 +59,8 @@ export class CountriesService {
         countries.forEach(country => {
           country.starred = this.isStarred(country.name.common); // Marcamos como favoritos los países antes de guardarlos
         });
-        this.cacheStore.byCountries = { term, countries };
+        this.cacheStore.byCapital = { term, countries };
+        console.log(this.cacheStore.byCountries)
         this.saveToLocalStorage();
       })
     );
@@ -89,6 +90,11 @@ export class CountriesService {
       return false
     }
     return starredCountries.includes(countryName);
+  }
+
+  didFavoritesChanged(countries: Country[]): Country[] {
+    countries.forEach(country => country.starred = this.isStarred(country.name.common));
+    return countries;
   }
 
   searchAll(): Observable<Country[]> {

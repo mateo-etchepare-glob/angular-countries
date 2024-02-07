@@ -19,6 +19,9 @@ export class ByCountryPageComponent implements OnInit {
   ngOnInit(): void {
     this.countries = this.countriesService.cacheStore.byCountries.countries;
     this.initialValue = this.countriesService.cacheStore.byCountries.term;
+    if (this.initialValue !== null) {
+      this.countries = this.countriesService.didFavoritesChanged(this.countries);
+    }
   }
 
   searchByCountry( term: string ):void  {
@@ -27,10 +30,6 @@ export class ByCountryPageComponent implements OnInit {
       .subscribe( countries => {
         this.countries = countries;
       });
-  }
-
-  favoriteClicked() {
-    this.searchByCountry(this.initialValue); // Realiza la búsqueda de todos los favoritos nuevamente
   }
 
 }

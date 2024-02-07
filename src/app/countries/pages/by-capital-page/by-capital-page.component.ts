@@ -19,6 +19,9 @@ export class ByCapitalPageComponent implements OnInit {
   ngOnInit(): void {
     this.countries = this.countriesService.cacheStore.byCapital.countries;
     this.initialValue = this.countriesService.cacheStore.byCapital.term;
+    if (this.initialValue !== null) {
+      this.countries = this.countriesService.didFavoritesChanged(this.countries);
+    }
   }
 
   searchByCapital( term: string ):void  {
@@ -31,9 +34,4 @@ export class ByCapitalPageComponent implements OnInit {
         this.isLoading = false;
       });
   }
-
-  favoriteClicked() {
-    this.searchByCapital(this.initialValue); // Realiza la búsqueda de todos los favoritos nuevamente
-  }
-
 }
