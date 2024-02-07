@@ -33,7 +33,11 @@ export class ByRegionPageComponent implements OnInit {
       .subscribe( countries => {
         this.countries = countries;
       });
+  }
 
+  favoriteClicked() {
+    this.searchByRegion(this.selectedRegion!); // Realiza la búsqueda de todos los favoritos nuevamente
+    console.log('Se ejecuta favorite clicked en region')
   }
 
 }

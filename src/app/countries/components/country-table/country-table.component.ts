@@ -25,7 +25,7 @@ export class CountryTableComponent {
 
   updateStarredList(countryName: string): void {
     const index = this.countries.findIndex(country => country.name.common === countryName);
-    this.countries[index].starred = !this.countries[index].starred; // lo saco o lo pongo como starred (esto es para cuando se levanta con otro url)
+    this.countries[index].starred = !this.countries[index].starred; // lo saco o lo pongo como starred (esto es para efecto inmediato visual)
 
     let countriesStorage: string[] = this._localStorageService.getItem('countries') as string[] || [];
     const countryIndex = countriesStorage.indexOf(countryName);

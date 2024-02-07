@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Country } from '../../interfaces/country';
 import { CountriesService } from '../../services/countries.service';
+import { LocalStorageService } from 'src/app/shared/utils/storage/local.storage.service';
 
 @Component({
   selector: 'app-by-country-page',
@@ -13,7 +14,7 @@ export class ByCountryPageComponent implements OnInit {
   public countries: Country[] = [];
   public initialValue: string = '';
 
-  constructor( private countriesService: CountriesService ) {}
+  constructor( private countriesService: CountriesService, private _localStorageService: LocalStorageService ) {}
 
   ngOnInit(): void {
     this.countries = this.countriesService.cacheStore.byCountries.countries;
@@ -21,11 +22,15 @@ export class ByCountryPageComponent implements OnInit {
   }
 
   searchByCountry( term: string ):void  {
+    this.initialValue = term;
     this.countriesService.searchCountry( term )
       .subscribe( countries => {
         this.countries = countries;
       });
+  }
 
+  favoriteClicked() {
+    this.searchByCountry(this.initialValue); // Realiza la búsqueda de todos los favoritos nuevamente
   }
 
 }

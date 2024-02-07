@@ -24,13 +24,16 @@ export class ByCapitalPageComponent implements OnInit {
   searchByCapital( term: string ):void  {
 
     this.isLoading = true;
-
+    this.initialValue = term;
     this.countriesService.searchCapital( term )
       .subscribe( countries => {
         this.countries = countries;
         this.isLoading = false;
       });
+  }
 
+  favoriteClicked() {
+    this.searchByCapital(this.initialValue); // Realiza la búsqueda de todos los favoritos nuevamente
   }
 
 }

@@ -24,10 +24,9 @@ export class ByFavoritesPageComponent {
   showAllFavorites() {
     const favCountries = this._localStorageService.getItem('countries') as String[];
     this.countries = this.countries.filter(country => favCountries.includes(country.name.common));
-    console.log(this.countries);
   }
 
-  searchCountry(term: string) {
+  searchCountry(term: string) { // para buscar entre los favoritos
     if (term == '') {
       this.searchAll()
     } else {

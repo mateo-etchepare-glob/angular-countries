@@ -36,7 +36,6 @@ export class CountriesService {
     return this.http.get<Country[]>( url )
       .pipe(
         catchError( () => of([]) ),
-        // delay( 2000 ),
       );
   }
 
@@ -89,11 +88,10 @@ export class CountriesService {
     if (starredCountries == null) {
       return false
     }
-    console.log(starredCountries.includes(countryName))
     return starredCountries.includes(countryName);
   }
 
-  searchAll() {
+  searchAll(): Observable<Country[]> {
       const url = `${ this.apiUrl }/all`;
       return this.getCountriesRequest(url)
       .pipe(
@@ -108,7 +106,6 @@ export class CountriesService {
 
 
   searchRegion( region: Region ): Observable<Country[]> {
-
     const url = `${ this.apiUrl }/region/${ region }`;
     return this.getCountriesRequest(url)
     .pipe(
