@@ -102,8 +102,6 @@ export class CountriesService {
           countries.forEach(country => {
             country.starred = this.isStarred(country.name.common); // Marcamos como favoritos los países antes de guardarlos
           });
-          this.cacheStore.byAll.countries = this.cacheStore.byAll.countries.filter(country => this.isStarred(country.name.common));
-          console.log(this.cacheStore.byAll.countries);
           this.saveToLocalStorage();
         })
       );

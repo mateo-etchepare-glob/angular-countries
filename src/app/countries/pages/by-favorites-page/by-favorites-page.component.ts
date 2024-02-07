@@ -8,12 +8,12 @@ import { LocalStorageService } from 'src/app/shared/utils/storage/local.storage.
   templateUrl: './by-favorites-page.html',
 })
 
-export class ByFavoritesPageComponent { 
+export class ByFavoritesPageComponent {
 
   public countries: Country[] = [];
   public initialValue: string = '';
 
-  constructor( private countriesService: CountriesService, private _localStorageService: LocalStorageService ) {
+  constructor(private countriesService: CountriesService, private _localStorageService: LocalStorageService) {
 
   }
 
@@ -23,15 +23,27 @@ export class ByFavoritesPageComponent {
 
   showAllFavorites() {
     const favCountries = this._localStorageService.getItem('countries') as String[];
-    this.countries = this.countries.filter(country => favCountries.includes(country.name.common));   
+    this.countries = this.countries.filter(country => favCountries.includes(country.name.common));
     console.log(this.countries);
   }
 
-  searchAll(): void  {
+  searchCountry(term: string) {
+    if (term == '') {
+      this.searchAll()
+    } else {
+      this.countriesService.searchCountry(term)
+        .subscribe(countries => {
+          this.countries = countries;
+          this.showAllFavorites();
+        });
+    }
+  }
+
+  searchAll(): void {
     this.countriesService.searchAll()
       .subscribe(countries => {
         this.countries = countries;
-        this.showAllFavorites(); 
+        this.showAllFavorites();
       });
   }
 }

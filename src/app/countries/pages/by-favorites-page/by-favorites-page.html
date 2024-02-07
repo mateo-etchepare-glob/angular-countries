@@ -1,5 +1,17 @@
 <h2 (click)="searchAll()">Por Favoritos</h2>
 
+<hr>
+
+<div class="row">
+  <div class="col">
+      <!-- SearchBox -->
+      <shared-search-box
+        (onDebounce)="searchCountry($event)"
+        [initialValue]="initialValue"
+        placeholder="Buscar por país"></shared-search-box>
+  </div>
+</div>
+
 <div class="row">
   <div class="col">
     <hr>
