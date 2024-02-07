@@ -18,7 +18,7 @@ import { ByFavoritesPageComponent } from './pages/by-favorites-page/by-favorites
     ByRegionPageComponent,
     ByFavoritesPageComponent,
     CountryPageComponent,
-    CountryTableComponent
+    CountryTableComponent,
   ],
   imports: [
     CommonModule,

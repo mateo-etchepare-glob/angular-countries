@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Country } from '../../interfaces/country';
 import { LocalStorageService } from 'src/app/shared/utils/storage/local.storage.service';
 
-
 @Component({
   selector: 'countries-table',
   templateUrl: './country-table.component.html',
@@ -15,13 +14,14 @@ import { LocalStorageService } from 'src/app/shared/utils/storage/local.storage.
 export class CountryTableComponent {
 
   constructor(private _localStorageService: LocalStorageService) {
-
+    
   }
 
   @Input()
   public countries: Country[] = [];
 
-  @Output() favoriteClicked = new EventEmitter<void>();
+  @Output() 
+  public favoriteClicked = new EventEmitter<void>();
 
   updateStarredList(countryName: string): void {
     const index = this.countries.findIndex(country => country.name.common === countryName);

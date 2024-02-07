@@ -47,6 +47,7 @@ export class ByFavoritesPageComponent {
   }
 
   favoriteClicked() {
+    console.log('Se ejecuta');
     this.searchAll(); // Realiza la búsqueda de todos los favoritos nuevamente
   }
 }
