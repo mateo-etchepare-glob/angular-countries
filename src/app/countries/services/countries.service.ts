@@ -5,6 +5,7 @@ import { catchError, Observable, of, map, tap } from 'rxjs';
 import { Country } from '../interfaces/country';
 import { CacheStore } from '../interfaces/cache-store.interface';
 import { Region } from '../interfaces/region.type';
+import { LocalStorageService } from 'src/app/shared/utils/storage/local.storage.service';
 
 @Injectable({ providedIn: 'root' })
 export class CountriesService {
@@ -15,9 +16,10 @@ export class CountriesService {
     byCapital:   { term: '', countries: [] },
     byCountries: { term: '', countries: [] },
     byRegion:    { region: '', countries: [] },
+    byAll: { countries: [] }
   }
 
-  constructor(private http: HttpClient ) {
+  constructor(private http: HttpClient, private _localStorageService: LocalStorageService ) {
     this.loadFromLocalStorage();
   }
 
@@ -52,34 +54,75 @@ export class CountriesService {
 
 
   searchCapital( term: string ): Observable<Country[]> {
-
     const url = `${ this.apiUrl }/capital/${ term }`;
     return this.getCountriesRequest(url)
-        .pipe(
-          tap( countries => this.cacheStore.byCapital = { term, countries }),
-          tap( () => this.saveToLocalStorage() ),
-        );
+    .pipe(
+      tap(countries => {
+        countries.forEach(country => {
+          country.starred = this.isStarred(country.name.common); // Marcamos como favoritos los países antes de guardarlos
+        });
+        this.cacheStore.byCountries = { term, countries };
+        this.saveToLocalStorage();
+      })
+    );
   }
 
   searchCountry( term: string ): Observable<Country[]> {
 
     const url = `${ this.apiUrl }/name/${ term }`;
     return this.getCountriesRequest(url)
-      .pipe(
-        tap( countries => this.cacheStore.byCountries = { term, countries }),
-        tap( () => this.saveToLocalStorage() ),
-      );
+    .pipe(
+      tap(countries => {
+        countries.forEach(country => {
+          country.starred = this.isStarred(country.name.common); // Marcamos como favoritos los países antes de guardarlos
+        });
+        this.cacheStore.byCountries = { term, countries };
+        this.saveToLocalStorage();
+      })
+    );
   }
+
+  isStarred(countryName: string): boolean {
+    const starredCountries = this._localStorageService.getItem('countries') as String[]; // están guardadas como String en 
+    // country-table.components.ts ya que ahí es donde
+    // se clickea la estrella y de esta forma se ahorra espacio en storage
+
+    if (starredCountries == null) {
+      return false
+    }
+    console.log(starredCountries.includes(countryName))
+    return starredCountries.includes(countryName);
+  }
+
+  searchAll() {
+      const url = `${ this.apiUrl }/all`;
+      return this.getCountriesRequest(url)
+      .pipe(
+        tap(countries => {
+          countries.forEach(country => {
+            country.starred = this.isStarred(country.name.common); // Marcamos como favoritos los países antes de guardarlos
+          });
+          this.cacheStore.byAll.countries = this.cacheStore.byAll.countries.filter(country => this.isStarred(country.name.common));
+          console.log(this.cacheStore.byAll.countries);
+          this.saveToLocalStorage();
+        })
+      );
+    }
+
 
   searchRegion( region: Region ): Observable<Country[]> {
 
     const url = `${ this.apiUrl }/region/${ region }`;
     return this.getCountriesRequest(url)
-      .pipe(
-        tap( countries => this.cacheStore.byRegion = { region, countries }),
-        tap( () => this.saveToLocalStorage() ),
-      );
+    .pipe(
+      tap(countries => {
+        countries.forEach(country => {
+          country.starred = this.isStarred(country.name.common); // Marcamos como favoritos los países antes de guardarlos
+        });
+        this.cacheStore.byRegion = { region, countries };
+        this.saveToLocalStorage();
+      })
+    );
   }
-
-
 }
+

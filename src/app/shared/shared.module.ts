@@ -9,8 +9,6 @@ import { LoadingSpinnerComponent } from './components/loading-spinner/loading-sp
 import { SearchBoxComponent } from './components/search-box/search-box.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 
-
-
 @NgModule({
   declarations: [
     AboutPageComponent,

@@ -5,6 +5,7 @@ import { ByCapitalPageComponent } from './pages/by-capital-page/by-capital-page.
 import { ByCountryPageComponent } from './pages/by-country-page/by-country-page.component';
 import { ByRegionPageComponent } from './pages/by-region-page/by-region-page.component';
 import { CountryPageComponent } from './pages/country-page/country-page.component';
+import { ByFavoritesPageComponent } from './pages/by-favorites-page/by-favorites-page.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,10 @@ const routes: Routes = [
   {
     path: 'by/:id',
     component: CountryPageComponent,
+  },
+  {
+    path: 'by-favorites',
+    component: ByFavoritesPageComponent,
   },
   {
     path: '**',
