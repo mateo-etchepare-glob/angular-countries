@@ -18,6 +18,7 @@ export class CountryPageComponent implements OnInit {
   public google_api_key = environment.GOOGLE_API_KEY;
   public google_embed_api_url:string = ''
   public safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl('');
+  public isLoading: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -27,7 +28,7 @@ export class CountryPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-
+    this.isLoading = true;
     this.activatedRoute.params
       .pipe(
         switchMap( ({ id }) => this.countriesService.searchCountryByAlphaCode( id )),
@@ -36,6 +37,7 @@ export class CountryPageComponent implements OnInit {
         if ( !country ) return this.router.navigateByUrl('');
         this.country = country;
         this.updateGoogleEmbedUrl();
+        this.isLoading = false;
         return;
       });
   }

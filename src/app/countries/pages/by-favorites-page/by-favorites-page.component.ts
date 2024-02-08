@@ -12,6 +12,7 @@ export class ByFavoritesPageComponent {
 
   public countries: Country[] = [];
   public initialValue: string = '';
+  public isLoading: boolean = false;
 
   constructor(private countriesService: CountriesService, private _localStorageService: LocalStorageService) {
 
@@ -27,27 +28,30 @@ export class ByFavoritesPageComponent {
   }
 
   searchCountry(term: string) { // para buscar entre los favoritos
-    if (term == '') {
-      this.searchAll()
-    } else {
+      if (term === '') {
+        this.searchAll();
+      } else {
+      this.isLoading = true;
       this.countriesService.searchCountry(term)
         .subscribe(countries => {
           this.countries = countries;
           this.showAllFavorites();
+          this.isLoading = false;
         });
-    }
+      }
   }
 
   searchAll(): void {
+    this.isLoading = true;
     this.countriesService.searchAll()
       .subscribe(countries => {
         this.countries = countries;
         this.showAllFavorites();
+        this.isLoading = false;
       });
   }
 
   favoriteClicked() {
-    console.log('Se ejecuta');
     this.searchAll(); // Realiza la búsqueda de todos los favoritos nuevamente
   }
 }
