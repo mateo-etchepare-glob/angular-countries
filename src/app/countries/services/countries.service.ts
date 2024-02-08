@@ -129,7 +129,8 @@ export class CountriesService {
 
   updateGoogleEmbedUrl(country: Country): SafeResourceUrl {
       const google_embed_api_url = `https://www.google.com/maps/embed/v1/place?key=${this.google_api_key}&q=+&center=${country.latlng[0]},${country.latlng[1]}&zoom=4.5`;
-      const safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(google_embed_api_url); // marco que el URL 
+      const safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(google_embed_api_url); // marco que el URL es trusted, porque se inserta un URL
+      // en el DOM entonces Angular lo toma como untrusted por default
       return safeUrl;
   }
 }
