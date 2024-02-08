@@ -20,7 +20,7 @@ export class ByCapitalPageComponent implements OnInit {
     this.countries = this.countriesService.cacheStore.byCapital.countries;
     this.initialValue = this.countriesService.cacheStore.byCapital.term;
     if (this.initialValue !== null) {
-      this.countries = this.countriesService.didFavoritesChanged(this.countries);
+      this.countries = this.countriesService.didFavoritesChange(this.countries);
     }
   }
 

@@ -90,7 +90,7 @@ export class CountriesService {
     return starredCountries.includes(countryName);
   }
 
-  didFavoritesChanged(countries: Country[]): Country[] {
+  didFavoritesChange(countries: Country[]): Country[] {
     countries.forEach(country => country.starred = this.isStarred(country.name.common));
     return countries;
   }

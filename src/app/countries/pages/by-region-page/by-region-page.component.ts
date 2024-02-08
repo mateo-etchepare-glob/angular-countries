@@ -24,7 +24,7 @@ export class ByRegionPageComponent implements OnInit {
     this.countries = this.countriesService.cacheStore.byRegion.countries;
     this.selectedRegion = this.countriesService.cacheStore.byRegion.region;
     if (this.selectedRegion !== null) {
-        this.countries = this.countriesService.didFavoritesChanged(this.countries);
+        this.countries = this.countriesService.didFavoritesChange(this.countries);
     }
   }
 
