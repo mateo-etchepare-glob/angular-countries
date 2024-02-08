@@ -6,6 +6,8 @@ import { Country } from '../interfaces/country';
 import { CacheStore } from '../interfaces/cache-store.interface';
 import { Region } from '../interfaces/region.type';
 import { LocalStorageService } from 'src/app/shared/utils/storage/local.storage.service';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { environment } from 'environment/environment';
 
 @Injectable({ providedIn: 'root' })
 export class CountriesService {
@@ -18,7 +20,9 @@ export class CountriesService {
     byRegion:    { region: '', countries: [] },
   }
 
-  constructor(private http: HttpClient, private _localStorageService: LocalStorageService ) {
+  public google_api_key = environment.GOOGLE_API_KEY;
+
+  constructor(private http: HttpClient, private _localStorageService: LocalStorageService, private sanitizer: DomSanitizer, ) {
     this.loadFromLocalStorage();
   }
 
@@ -55,7 +59,7 @@ export class CountriesService {
     .pipe(
       tap(countries => {
         countries.forEach(country => {
-          country.starred = this.isStarred(country.name.common); // Marcamos como favoritos los países antes de guardarlos
+          country.starred = this.isStarred(country.name.common); // marco como favoritos los países antes de guardarlos
         });
         this.cacheStore.byCapital = { term, countries };
         console.log(this.cacheStore.byCountries)
@@ -71,7 +75,7 @@ export class CountriesService {
     .pipe(
       tap(countries => {
         countries.forEach(country => {
-          country.starred = this.isStarred(country.name.common); // Marcamos como favoritos los países antes de guardarlos
+          country.starred = this.isStarred(country.name.common); // marco como favoritos los países antes de guardarlos
         });
         this.cacheStore.byCountries = { term, countries };
         this.saveToLocalStorage();
@@ -101,7 +105,7 @@ export class CountriesService {
       .pipe(
         tap(countries => {
           countries.forEach(country => {
-            country.starred = this.isStarred(country.name.common); // Marcamos como favoritos los países antes de guardarlos
+            country.starred = this.isStarred(country.name.common); // marco como favoritos los países antes de guardarlos
           });
           this.saveToLocalStorage();
         })
@@ -115,12 +119,18 @@ export class CountriesService {
     .pipe(
       tap(countries => {
         countries.forEach(country => {
-          country.starred = this.isStarred(country.name.common); // Marcamos como favoritos los países antes de guardarlos
+          country.starred = this.isStarred(country.name.common); 
         });
         this.cacheStore.byRegion = { region, countries };
         this.saveToLocalStorage();
       })
     );
+  }
+
+  updateGoogleEmbedUrl(country: Country): SafeResourceUrl {
+      const google_embed_api_url = `https://www.google.com/maps/embed/v1/place?key=${this.google_api_key}&q=+&center=${country.latlng[0]},${country.latlng[1]}&zoom=4.5`;
+      const safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(google_embed_api_url); // marco que el URL 
+      return safeUrl;
   }
 }
 
