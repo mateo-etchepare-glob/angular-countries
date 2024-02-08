@@ -14,7 +14,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 export class CountryPageComponent implements OnInit {
 
   public country?: Country;
-  public google_api_key: string = ''
+  public google_api_key: string = "AIzaSyBjSmR1Sx00VJYkGqws7-yauKCe2CskG44"
   public google_embed_api_url:string = ''
   public safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl('');
 
