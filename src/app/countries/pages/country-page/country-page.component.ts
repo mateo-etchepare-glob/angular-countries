@@ -4,6 +4,7 @@ import { CountriesService } from '../../services/countries.service';
 import { count, switchMap } from 'rxjs';
 import { Country } from '../../interfaces/country';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { environment } from 'environment/environment';
 
 @Component({
   selector: 'app-country-page',
@@ -14,7 +15,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 export class CountryPageComponent implements OnInit {
 
   public country?: Country;
-  public google_api_key: string = "AIzaSyBjSmR1Sx00VJYkGqws7-yauKCe2CskG44"
+  public google_api_key = environment.GOOGLE_API_KEY;
   public google_embed_api_url:string = ''
   public safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl('');
 
@@ -41,8 +42,9 @@ export class CountryPageComponent implements OnInit {
 
   private updateGoogleEmbedUrl(): void {
     if (this.country && this.country.latlng) {
-      this.google_embed_api_url = `https://www.google.com/maps/embed/v1/place?key=${this.google_api_key}&q=+&center=${this.country.latlng[0].toPrecision(6)},${this.country.latlng[1].toPrecision(6)}&zoom=4.5`;
+      this.google_embed_api_url = `https://www.google.com/maps/embed/v1/place?key=${this.google_api_key}&q=+&center=${this.country.latlng[0]},${this.country.latlng[1]}&zoom=4.5`;
       this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.google_embed_api_url);
+      console.log(process.env)
     }
   }
 }
